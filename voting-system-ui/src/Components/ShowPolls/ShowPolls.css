@@ -1,0 +1,72 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  
+  .page-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  
+  .no-polls {
+    color: #555;
+    font-size: 16px;
+    text-align: center;
+  }
+  
+  .polls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  
+  .poll-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .poll-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  .poll-description {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .delete-button {
+    background-color: #e53935;
+    color: #ffffff;
+    border: none;
+    padding: 10px 0;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-top: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .delete-button:hover {
+    background-color: #d32f2f;
+  }
+  
+  /* Optional: Add a little spacing on smaller screens */
+  @media (max-width: 600px) {
+    .container {
+      padding: 30px 15px;
+    }
+  
+    .page-title {
+      font-size: 26px;
+    }
+  }

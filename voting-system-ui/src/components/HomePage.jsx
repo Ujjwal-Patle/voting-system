@@ -3,7 +3,7 @@ import { Container, Button, Navbar, Nav } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import AboutSection from '../components/AboutSection.jsx'; 
-
+import '../components/navbar.css'
 function HomePage() {
   const navigate = useNavigate();
 
@@ -24,7 +24,8 @@ function HomePage() {
             <Nav className="ms-auto">
               <Nav.Link onClick={() => scrollToSection('home')}>Home</Nav.Link>
               <Nav.Link onClick={() => scrollToSection('about')}>About</Nav.Link>
-              <Nav.Link onClick={() => navigate('/vote')}>Vote Now</Nav.Link>
+              <Nav.Link onClick={() => scrollToSection('Results')}>Results</Nav.Link>
+              <Nav.Link onClick={() => navigate('/admin/login')}>Login</Nav.Link>
               <Nav.Link onClick={() => scrollToSection('contact')}>Contact Us</Nav.Link>
           
             </Nav>
@@ -32,7 +33,18 @@ function HomePage() {
         </Container>
       </Navbar>
 
-      <div id="home" style={{ paddingTop: '100px' }}>
+      <div
+  id="home"
+  style={{
+    paddingTop: '100px',
+    backgroundImage: "url('/E:\project\voting-system\voting-system-ui\src\assets\home.jpg')", // public folder path
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    minHeight: '100vh', // ensures it fills screen
+    color: 'Black', // optional, for better text visibility
+  }}
+>
         <Container className="text-center mt-5">
           <motion.h1
             initial={{ y: -50, opacity: 0 }}
@@ -54,7 +66,7 @@ function HomePage() {
             transition={{ delay: 0.7, duration: 0.5 }}
           >
             
-      <Button variant="primary" onClick={() => navigate('/admin/login')}>
+      <Button variant="primary" onClick={() => navigate('/voter/register')}>
   Get Started
 </Button>
 

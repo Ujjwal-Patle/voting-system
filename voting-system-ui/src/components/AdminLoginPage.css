@@ -1,11 +1,17 @@
+/* AdminLoginPage.css */
+
 .admin-login-container {
-  margin-top: 60px;
+  margin: 60px auto;
   max-width: 400px;
   padding: 25px;
   background: #f8f9fa;
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-login-wrapper {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* makes it take the full height */
 }

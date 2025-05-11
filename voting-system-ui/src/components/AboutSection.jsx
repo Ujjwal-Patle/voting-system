@@ -15,7 +15,7 @@ function AboutSection() {
           <br></br>
           
         </motion.h2>
-<h>eVote is a secure, accessible, and transparent electronic voting system designed for modern democracy.</h>
+<p style={{ fontSize: '1.25rem' }}>eVote is a secure, accessible, and transparent electronic voting system designed for modern democracy.</p>
         <Row className="align-items-center mt-5 text-start">
           {/* Left: Image */}
           <Col md={6}>
@@ -36,10 +36,10 @@ function AboutSection() {
             </p>
             <p style={{ fontSize: '1.25rem' }}>
               It renders <strong>Simple</strong> and <strong>Accessible</strong> voter experience that increases turnout.
-              <strong> Auditable, Easy To Use, Secure and Reliable</strong> is what sets eVote apart from competitors.
+              <strong> Auditable, Easy To Use, Secure and Reliable</strong>.
             </p>
             <p style={{ fontSize: '1.25rem' }}>
-              eVote has helped many organizations with secure, trustworthy elections  and last but not the least; our potential to be able to tabulate expeditious and accurate results .
+            Last but not the least; our potential to be able to tabulate expeditious and accurate results .
             </p>
             <p></p>
           </Col>

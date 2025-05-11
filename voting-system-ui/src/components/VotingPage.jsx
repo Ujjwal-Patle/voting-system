@@ -34,24 +34,25 @@ function VotingPage() {
       {submitted && <Alert variant="success">Thank you for voting!</Alert>}
 
       <Form>
-        <Row className='justiy-content-center'>
-          {candidates.map((candidate) => (
-            <Col md={6} key={candidate.id}>
-              <Card className="mb-3">
-                <Card.Img variant="top" src={candidate.photo} height="250" />
-                <Card.Body className="text-center">
-                  <Card.Title>{candidate.name}</Card.Title>
-                  <Form.Check
-                    type="radio"
-                    label="Select"
-                    checked={selectedCandidate === candidate.id}
-                    onChange={() => setSelectedCandidate(candidate.id)}
-                  />
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
+        <Row xs={1} md={2} className="g-4">
+  {candidates.map((candidate) => (
+    <Col key={candidate.id}>
+      <Card className="h-100 text-center shadow-sm">
+        <Card.Img variant="top" src={candidate.photo} height="250" style={{ objectFit: 'cover' }} />
+        <Card.Body>
+          <Card.Title>{candidate.name}</Card.Title>
+          <Form.Check
+            type="radio"
+            label="Select"
+            checked={selectedCandidate === candidate.id}
+            onChange={() => setSelectedCandidate(candidate.id)}
+          />
+        </Card.Body>
+      </Card>
+    </Col>
+  ))}
+</Row>
+
         <div className="text-center">
           <Button onClick={handleVote} variant="primary" disabled={submitted}>
             Vote

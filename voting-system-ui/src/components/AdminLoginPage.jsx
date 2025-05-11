@@ -19,7 +19,7 @@ function AdminLoginPage() {
       return;
     }
 
-    if (adminId === 'admin123' && password === 'adminpass' && key === 'secretKey2024') {
+    if (adminId === 'admin123' && password === 'adminpass') {
       setSuccess('Login successful');
       setError('');
       setTimeout(() => navigate('/'), 1500); // redirect to home after 1.5s
@@ -30,7 +30,8 @@ function AdminLoginPage() {
   };
 
   return (
-    <Container className="admin-login-container">
+      <Container className="d-flex justify-content-center align-items-center min-vh-100">
+      <div className="p-4 shadow rounded bg-white" style={{ maxWidth: '420px', width: '100%' }}>
       <h3 className="text-center">Admin Login</h3>
       {error && <Alert variant="danger">{error}</Alert>}
       {success && <Alert variant="success">{success}</Alert>}
@@ -39,8 +40,8 @@ function AdminLoginPage() {
         <Form.Group controlId="adminId" className="mb-3">
           <Form.Label>Admin Email ID</Form.Label>
           <Form.Control
-            type="text"
-            placeholder="Enter ID"
+            type="email"
+            placeholder="Enter your email"
             value={adminId}
             onChange={(e) => setAdminId(e.target.value)}
             required
@@ -58,27 +59,17 @@ function AdminLoginPage() {
           />
         </Form.Group>
 
-        <Form.Group controlId="adminKey" className="mb-3">
-          <Form.Label>Admin KEY</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter admin key"
-            value={key}
-            onChange={(e) => setKey(e.target.value)}
-            required
-          />
-        </Form.Group>
 
         <div className="text-center">
-          <Button type="submit" variant="primary" className="w-100 mb-3">
+          <Button type="submit" variant="primary" className="w-100 mb-2">
             Admin Login
           </Button>
-          <Button variant="secondary" className="w-100" onClick={() => navigate('/voter/register')}>
-            Voter Registration
-          </Button>
+         
         </div>
       </Form>
+       </div>
     </Container>
+   
   );
 }
 

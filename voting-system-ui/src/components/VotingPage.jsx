@@ -7,9 +7,21 @@ const candidates = [
 ];
 
 function VotingPage() {
+  const [step, setStep] = useState('verify');
+  const [voterName, setVoterName] = useState('');
+  const [aadhaar, setAadhaar] = useState('');
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [submitted, setSubmitted] = useState(false);
-
+  
+  const handleVerify = () => {
+    if (!voterName || !aadhaar || aadhaar.length !== 12) {
+      setError('Please enter valid name and 12-digit Aadhaar number.');
+      return;
+    }
+    setError('');
+    setStep('vote');
+  };
+  
   const handleVote = () => {
     if (!selectedCandidate) return alert('Select a candidate');
     // TODO: Send vote to backend later

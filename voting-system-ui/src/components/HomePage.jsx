@@ -3,6 +3,7 @@ import { Container, Button, Navbar, Nav } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import AboutSection from '../components/AboutSection.jsx'; 
+
 function HomePage() {
   const navigate = useNavigate();
 
@@ -25,8 +26,7 @@ function HomePage() {
               <Nav.Link onClick={() => scrollToSection('about')}>About</Nav.Link>
               <Nav.Link onClick={() => navigate('/vote')}>Vote Now</Nav.Link>
               <Nav.Link onClick={() => scrollToSection('contact')}>Contact Us</Nav.Link>
-            <Nav.Link onClick={()=>navigate('/voter/register')}>
-          Sign In</Nav.Link>
+          
             </Nav>
           </Navbar.Collapse>
         </Container>

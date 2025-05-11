@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './ShowPolls.css';
+import { useNavigate } from 'react-router-dom';
 
 const ShowPolls = () => {
+
+  const navigate = useNavigate();
   const [polls, setPolls] = useState([]);
 
   useEffect(() => {
@@ -22,9 +25,11 @@ const ShowPolls = () => {
     setPolls(updatedPolls);
   };
 
-  const handleEditPoll = (id) => {
+  const handleEditPoll = (pollData) => {
     // You can connect this later to navigate to your Edit page
-    console.log(`Edit poll with id: ${id}`);
+    // console.log(`Edit poll with id: ${id}`);
+    navigate('/editpolls', {state :{poll: pollData}})
+
   };
 
   return (
@@ -44,7 +49,7 @@ const ShowPolls = () => {
               <div className="button-group">
                 <button
                   className="edit-button"
-                  onClick={() => handleEditPoll(poll.id)}
+                  onClick={() => handleEditPoll(poll)}
                 >
                   Edit Poll
                 </button>

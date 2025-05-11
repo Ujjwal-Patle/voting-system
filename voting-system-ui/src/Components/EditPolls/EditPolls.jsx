@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import './CreatePoll.css';
+import { useLocation } from 'react-router-dom';
+import './EditPolls.css';
 
-function CreatePoll() {
+function EditPolls() {
+
+  const location = useLocation();
+  const { poll } = location.state;
 
   const [pollName, setPollName] = useState('');
   const [adminId, setAdminId] = useState('');
@@ -28,25 +32,23 @@ function CreatePoll() {
 
   return (
     <div style={{ maxWidth: '500px', margin: '2rem auto', padding: '2rem', border: '1px solid #ccc', borderRadius: '8px' }}>
-      <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>Create New Poll</h2>
+      <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>Edit Poll</h2>
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '1rem' }}>
-          <label>Poll Name</label>
+          <label>Poll title</label>
           <input
             type="text"
-            value={pollName}
-            onChange={(e) => setPollName(e.target.value)}
+            defaultValue={poll.title} 
             required
             style={{ width: '100%', padding: '0.5rem', marginTop: '0.5rem' }}
           />
         </div>
 
         <div style={{ marginBottom: '1rem' }}>
-          <label>Admin ID</label>
+          <label>Poll description</label>
           <input
             type="text"
-            value={adminId}
-            onChange={(e) => setAdminId(e.target.value)}
+            defaultValue={poll.description} 
             required
             style={{ width: '100%', padding: '0.5rem', marginTop: '0.5rem' }}
           />
@@ -75,11 +77,11 @@ function CreatePoll() {
         </div>
 
         <button type="submit" style={{ width: '100%', padding: '0.75rem', background: '#333', color: '#fff', border: 'none', borderRadius: '4px' }}>
-          Create Poll
+          Update
         </button>
       </form>
     </div>
   );
 }
 
-export default CreatePoll;
+export default EditPolls;

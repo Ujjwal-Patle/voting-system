@@ -30,7 +30,7 @@ export function createPoll(request, response) {
             } else {
                 response.status(StatusCodes.CREATED).send({
                     message: "Poll created successfully",
-                    pollId: result.insertId,
+                    pollId: result.insertId
                 });
             }
         });
@@ -352,14 +352,6 @@ export function addCandidate(req, res) {
                         error: "Poll not found or unauthorized access",
                     });
                 }
-
-                // // Check if poll is active
-                // if (results[0].is_active) {
-                //     console.log("Cannot add candidates to an active poll");
-                //     return res.status(StatusCodes.FORBIDDEN).send({
-                //         error: "Cannot add candidates to an active poll",
-                //     });
-                // }
 
                 conn.query("INSERT INTO candidates (poll_id, name, description, photo_url) VALUES (?, ?, ?, ?)",
                     [poll_id, name, description, photo_url],

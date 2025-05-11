@@ -4,88 +4,97 @@ import { getDBConnection } from "../config/DbConnection.js";
 
 const conn = getDBConnection();
 
-export function voterRegister(request, response) {
+// Verify Voter
+export function verifyVoter(req, res) {
   try {
-    const data = request.body;
-    const qry = "insert into voters (adhar_no, voter_name, voter_email, voter_dob ) values (?,?,?,?)";
-    const values = [data.adhar_no, data.voter_name, data.voter_email, data.voter_dob];
-    conn.query(qry, values, (error, result) => {
-        if (error) {
-            console.error("DB Error:", error); 
-        if (error.errno == 1062) {
-          response
-            .status(StatusCodes.BAD_REQUEST)
-            .send({ message: "Voter alredy exist...!" });
-        } else {
-          response
-            .status(StatusCodes.INTERNAL_SERVER_ERROR)
-            .send({ message: "Problem in inserting...!" });
+     const { adhar_no, dob } = req.body;
+    conn.query(
+      `SELECT id FROM voters WHERE adhar_no = ? AND dob = ?`,
+      [adhar_no, dob],
+      (err, results) => {
+        if (err) {
+          console.error("DB error during voter verification:", err);
+          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Database error");
         }
-      } else {
-        response
-          .status(StatusCodes.OK)
-          .send({ message: "Registration sucessfull...!" });
+
+        if (results.length === 0) {
+          return res.status(StatusCodes.UNAUTHORIZED).send("Invalid Aadhaar or DOB");
+        }
+
+         voterId = results[0].id;
+        res.status(StatusCodes.OK).json({ message: "Voter verified", voter_id: voterId });
       }
-    });
+    );
   } catch (error) {
-    response
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .send({ message: "Problem with server...!" });
+    console.error("Unexpected error:", error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Unexpected error");
   }
 }
 
 
 
-// Voter Login
-export function voterLogin (req, res){
+export function castVote(req, res) {
+  
   try {
-    const { aadhaar_number, password } = req.body;
-    const qur = 'SELECT * FROM voters WHERE aadhaar_number = ?';
-    const values =[aadhaar_number];
-    conn.query(qry, values, (err, results) => {
-        try {
-          if (err) throw err;
+   
+    const { poll_id, candidate_id, voter_id } = req.body;
 
-          if (results.length === 0) {
-            return res.status(StatusCodes.BAD_REQUEST).send({error: 'Invalid credentials'});
-          }
+    
+    // Check if poll is active
+    conn.query(
+      `SELECT id, name, start_date, end_date, is_active FROM polls WHERE id = ? AND is_active = TRUE`,
+      [poll_id],
+      (err, pollResults) => {
+        if (err) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Error checking poll status");
 
-          const voter = results[0];
-
-          if (!compareSync(password, voter.password)) {
-            
-          }else{
-            return res.status(StatusCodes.BAD_REQUEST).json({message : 'Invalid credentials'});
-          }
-
-          const token = jwt.sign(
-            { id: voter.id, aadhaar_number: voter.aadhaar_number },
-            process.env.SECRET_KEY,
-            { expiresIn: '1h' }
-          );
-
-          res.status(StatusCodes.OK).send({ 
-            token,
-            voter: {
-              id: voter.id,
-              full_name: voter.full_name,
-              aadhaar_number: voter.aadhaar_number,
-              email: voter.email,
-              is_verified: voter.is_verified
-            }
-          });
-        } catch (err) {
-          console.error(err);
-          res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ 
-            error: 'Authentication failed' 
-          });
+        console.log("Poll details:", pollResults);
+        if (pollResults.length === 0) {
+          return res.status(StatusCodes.BAD_REQUEST).send({ message: "Poll is not active or doesn't exist" });
         }
+
+        const poll = pollResults[0];
+        console.log("Poll Start Date:", poll.start_date);
+        console.log("Poll End Date:", poll.end_date);
+        console.log("Is Poll Active:", poll.is_active);
+
+        // Check if the voter has already voted in this poll
+        conn.query(
+          `SELECT id FROM votes WHERE poll_id = ? AND voter_id = ?`,
+          [poll_id, voter_id],
+          (err, voteResults) => {
+            if (err) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Error checking previous vote");
+
+            if (voteResults.length > 0) {
+              return res.status(StatusCodes.CONFLICT).send("You have already voted in this poll");
+            }
+
+            // Check if the candidate belongs to the poll
+            conn.query(
+              `SELECT id FROM candidates WHERE id = ? AND poll_id = ?`,
+              [candidate_id, poll_id],
+              (err, candidateResults) => {
+                if (err) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Error checking candidate");
+                if (candidateResults.length === 0) {
+                  return res.status(StatusCodes.BAD_REQUEST).send("Invalid candidate for this poll");
+                }
+
+                // Record the vote
+                conn.query(
+                  `INSERT INTO votes (poll_id, candidate_id, voter_id) VALUES (?, ?, ?)`,
+                  [poll_id, candidate_id, voter_id],
+                  (err, result) => {
+                    if (err) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Error recording vote");
+                    return res.status(StatusCodes.OK).send("Vote recorded successfully");
+                  }
+                );
+              }
+            );
+          }
+        );
       }
     );
-  } catch (err) {
-    console.error(err);
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ 
-      error: 'Server error' 
-    });
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Unexpected server error");
   }
-};
+}

@@ -1,0 +1,66 @@
+import React, { useState } from 'react';
+import { Container, Card, Button, Row, Col, Alert, Form } from 'react-bootstrap';
+
+const candidates = [
+  { id: 1, name: 'Alice Sharma', photo: 'vote3.jpg' },
+  { id: 2, name: 'Ravi Mehta', photo: '/public/vote2.jpg' },
+];
+
+function VotingPage() {
+  const [step, setStep] = useState('verify');
+  const [voterName, setVoterName] = useState('');
+  const [aadhaar, setAadhaar] = useState('');
+  const [selectedCandidate, setSelectedCandidate] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
+  
+  const handleVerify = () => {
+    if (!voterName || !aadhaar || aadhaar.length !== 12) {
+      setError('Please enter valid name and 12-digit Aadhaar number.');
+      return;
+    }
+    setError('');
+    setStep('vote');
+  };
+  
+  const handleVote = () => {
+    if (!selectedCandidate) return alert('Select a candidate');
+    // TODO: Send vote to backend later
+    setSubmitted(true);
+  };
+
+  return (
+    <Container className="mt-4">
+      <h2 className="text-center mb-4">Cast Your Vote</h2>
+      {submitted && <Alert variant="success">Thank you for voting!</Alert>}
+
+      <Form>
+        <Row xs={1} md={2} className="g-4">
+  {candidates.map((candidate) => (
+    <Col key={candidate.id}>
+      <Card className="h-100 text-center shadow-sm">
+        <Card.Img variant="top" src={candidate.photo} height="250" style={{ objectFit: 'cover' }} />
+        <Card.Body>
+          <Card.Title>{candidate.name}</Card.Title>
+          <Form.Check
+            type="radio"
+            label="Select"
+            checked={selectedCandidate === candidate.id}
+            onChange={() => setSelectedCandidate(candidate.id)}
+          />
+        </Card.Body>
+      </Card>
+    </Col>
+  ))}
+</Row>
+
+        <div className="text-center">
+          <Button onClick={handleVote} variant="primary" disabled={submitted}>
+            Vote
+          </Button>
+        </div>
+      </Form>
+    </Container>
+  );
+}
+
+export default VotingPage;

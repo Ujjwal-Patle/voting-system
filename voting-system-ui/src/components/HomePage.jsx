@@ -3,6 +3,7 @@ import { Container, Button, Navbar, Nav } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import { Outlet, useNavigate } from 'react-router-dom';
 import AboutSection from '../components/AboutSection.jsx'; 
+import { Link } from 'react-router-dom';
 function HomePage() {
   const navigate = useNavigate();
 
@@ -23,11 +24,11 @@ function HomePage() {
             <Nav className="ms-auto">
               <Nav.Link onClick={() => scrollToSection('home')}>Home</Nav.Link>
               <Nav.Link onClick={() => scrollToSection('about')}>About</Nav.Link>
-              <Nav.Link onClick={() => navigate('/vote')}>Vote Now</Nav.Link>
-              <Nav.Link onClick={() => scrollToSection('contact')}>Contact Us</Nav.Link>
-            <Nav.Link onClick={()=>navigate('/voter/register')}>
+              <Nav.Link onClick={() => navigate('/home')}>Vote Now</Nav.Link>
+              <Nav.Link onClick={() => navigate('/contactpage')}>Contact Us</Nav.Link>
+            <Nav.Link onClick={()=>navigate('/voter/register')}>Sign In</Nav.Link>
             <Nav.Link as={Link} to="/results">Results</Nav.Link>
-          Sign In</Nav.Link>
+
             </Nav>
           </Navbar.Collapse>
         </Container>

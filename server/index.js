@@ -6,7 +6,6 @@ import adminRoute from "./router/adminRoute.js";
 import contactRout from "./router/contactRoute.js";
 import  publicRout from "./router/publicRoute.js";
 import bodyParser from 'body-parser';
-import cors from 'cors';
 const app = express();
 app.use(express.json());
 app.use(bodyParser.json());

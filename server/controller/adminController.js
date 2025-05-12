@@ -8,8 +8,10 @@ const conn = getDBConnection();
 // Create Poll
 export function createPoll(request, response) {
     try {
+        console.log("request", request.body)
         const data = request.body;
-         const adminId = request.user.id;
+        //  const adminId = request.user.id;
+         
         // Validate dates
         if (data.start_date >= data.end_date) {
             return response
@@ -19,7 +21,7 @@ export function createPoll(request, response) {
 
         const qry =
             "INSERT INTO polls (name, admin_id, start_date, end_date) VALUES (?, ?, ?, ?)";
-        const values = [data.name, adminId, data.start_date, data.end_date];
+        const values = [data.name, data.admin_id, data.start_date, data.end_date];
 
         conn.query(qry, values, (error, result) => {
             if (error) {
@@ -44,8 +46,9 @@ export function createPoll(request, response) {
 // Get All Polls
 export function getAllPolls(request, response) {
     try {
+        console.log(request.user); 
         const adminId = request.user.id;
-        console.log(adminId);
+        
 
         const qry = `SELECT p.*, 
        COUNT(c.id) as candidate_count,

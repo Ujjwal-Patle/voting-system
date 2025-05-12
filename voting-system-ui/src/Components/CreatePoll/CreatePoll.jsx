@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './CreatePoll.css';
+import axios from "axios";
+
 
 function CreatePoll() {
 
@@ -8,7 +10,7 @@ function CreatePoll() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // For now, just log the form data
@@ -18,6 +20,34 @@ function CreatePoll() {
       startDate,
       endDate
     });
+
+    const pollData = {
+      name: pollName,
+      admin_id: adminId,
+      start_date: startDate,
+      end_date: endDate,
+    };
+    try {
+      // setLoading(true); // Show loading state while making the API call
+
+      // Send POST request to the backend API to create the poll
+      
+      const response = await axios.post(
+        "http://localhost:3200/admin/createPoll",pollData,
+        {
+          headers: {
+            'Authorization': `Bearer secret123`  // Add token in Authorization header
+          }
+        }
+      );
+
+      // Handle the response (Success)
+      console.log("Poll created successfully:", response.data);
+      alert("Poll created successfully")
+    } catch(err){
+      // Handle error response
+      console.error("Error creating poll:", err);
+    }
 
     // Reset form fields
     setPollName('');

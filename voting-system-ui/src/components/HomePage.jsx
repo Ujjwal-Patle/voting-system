@@ -26,6 +26,7 @@ function HomePage() {
               <Nav.Link onClick={() => navigate('/vote')}>Vote Now</Nav.Link>
               <Nav.Link onClick={() => scrollToSection('contact')}>Contact Us</Nav.Link>
             <Nav.Link onClick={()=>navigate('/voter/register')}>
+            <Nav.Link as={Link} to="/results">Results</Nav.Link>
           Sign In</Nav.Link>
             </Nav>
           </Navbar.Collapse>

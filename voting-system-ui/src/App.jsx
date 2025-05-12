@@ -9,6 +9,7 @@ import CreatePoll from './Components/CreatePoll/CreatePoll.jsx';
 import ShowPolls from './Components/ShowPolls/ShowPolls.jsx';
 import PollPage from "./Components/PollPage/PollPage.jsx";
 import EditPolls from "./Components/EditPolls/EditPolls.jsx";
+import ResultPage from "./Components/Result.jsx";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
        <Route path="/createpoll" element={<CreatePoll/>} />
        <Route path="/showpolls" element={<ShowPolls/>} />
        <Route path="/editpolls" element={<EditPolls/>} />
+       <Route path="/results" element={<ResultPage />} />
 
 
        {/* <Route path="/voter/register" element={<ShowPolls />} /> */}

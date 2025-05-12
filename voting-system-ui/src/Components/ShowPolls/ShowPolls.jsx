@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './ShowPolls.css';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+
 
 const ShowPolls = () => {
 
@@ -9,12 +11,22 @@ const ShowPolls = () => {
 
   useEffect(() => {
     const fetchPolls = async () => {
-      const data = [
-        { id: 1, title: "Best Programming Language 2025?", description: "Vote for your favorite programming language!" },
-        { id: 2, title: "Next Football Champion?", description: "Predict the winner of the next world cup." },
-        { id: 3, title: "Favorite Social Media App?", description: "Which app do you use the most daily?" },
-      ];
-      setPolls(data);
+      try{
+      const response = await axios.get("http://localhost:3200/admin/getAllPolls",
+      {
+        headers: {
+          'Authorization': `Bearer secret123`  // Add token in Authorization header
+        }
+      })
+      // const data = [
+      //   { id: 1, title: "Best Programming Language 2025?", description: "Vote for your favorite programming language!" },
+      //   { id: 2, title: "Next Football Champion?", description: "Predict the winner of the next world cup." },
+      //   { id: 3, title: "Favorite Social Media App?", description: "Which app do you use the most daily?" },
+      // ];
+      setPolls(response.data);
+    } catch(err){
+      console.error("Error fetching polls:", err);
+    }
     };
 
     fetchPolls();

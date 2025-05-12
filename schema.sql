@@ -1,38 +1,88 @@
-CREATE TABLE movie_booking(
-	user_id int AUTO_INCREMENT PRIMARY KEY,
-    booking_id INT NOT NULL,
-    movie_name VARCHAR(20) not null,
-    seat_no VARCHAR(10) not null unique    
+CREATE DATABASE voting_system;
+
+USE voting_system;
+
+CREATE TABLE admins (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  q1 varchar(200),
+  q2 varchar(200),
+  q3 varchar(200),
+  q4 int,
+  q5 int,
+  q6 int
 );
 
+
 CREATE TABLE voters (
-  voter_id INT AUTO_INCREMENT PRIMARY KEY,
-  adhar_no VARCHAR(12) NOT NULL UNIQUE,
-  voter_name VARCHAR(100) NOT NULL,
-  voter_email VARCHAR(100) NOT NULL,
-  voter_dob DATE NOT NULL
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  full_name VARCHAR(100) NOT NULL,
+  adhar_no VARCHAR(12) UNIQUE NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  dob DATE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  is_verified BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  q1 varchar(200),
+  q2 varchar(200),
+  q3 varchar(200),
+  q4 int,
+  q5 int,
+  q6 int
 );
 
 CREATE TABLE polls (
-  poll_id INT AUTO_INCREMENT PRIMARY KEY,
-  poll_title VARCHAR(255) NOT NULL,
-  poll_description TEXT,
-  poll_deadline DATETIME NOT NULL
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  admin_id INT NOT NULL,
+  start_date DATETIME NOT NULL,
+  end_date DATETIME NOT NULL,
+  is_active BOOLEAN DEFAULT TRUE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (admin_id) REFERENCES admins(id)
+  ,q1 varchar(200),
+  q2 varchar(200),
+  q3 varchar(200),
+  q4 int,
+  q5 int,
+  q6 int
 );
-CREATE TABLE poll_options (
-  option_id INT AUTO_INCREMENT PRIMARY KEY,
+
+CREATE TABLE candidates (
+  id INT AUTO_INCREMENT PRIMARY KEY,
   poll_id INT NOT NULL,
-  option_text VARCHAR(255) NOT NULL,
-  FOREIGN KEY (poll_id) REFERENCES polls(poll_id)
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  photo_url VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (poll_id) REFERENCES polls(id),
+  q1 varchar(200),
+  q2 varchar(200),
+  q3 varchar(200),
+  q4 int,
+  q5 int,
+  q6 int
 );
+
 CREATE TABLE votes (
-  vote_id INT AUTO_INCREMENT PRIMARY KEY,
-  voter_id INT NOT NULL,
+  id INT AUTO_INCREMENT PRIMARY KEY,
   poll_id INT NOT NULL,
-  option_id INT NOT NULL,
-  vote_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  UNIQUE (voter_id, poll_id), -- ensures one vote per poll
-  FOREIGN KEY (voter_id) REFERENCES voters(voter_id),
-  FOREIGN KEY (poll_id) REFERENCES polls(poll_id),
-  FOREIGN KEY (option_id) REFERENCES poll_options(option_id)
+  candidate_id INT NOT NULL,
+  voter_id INT NOT NULL,
+  voted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (poll_id) REFERENCES polls(id),
+  FOREIGN KEY (candidate_id) REFERENCES candidates(id),
+  FOREIGN KEY (voter_id) REFERENCES voters(id),
+  UNIQUE KEY (poll_id, voter_id),
+  q1 varchar(200),
+  q2 varchar(200),
+  q3 varchar(200),
+  q4 int,
+  q5 int,
+  q6 int
 );
+SELECT id, name, start_date, end_date, is_active FROM polls WHERE id = 3;
+select * from polls;

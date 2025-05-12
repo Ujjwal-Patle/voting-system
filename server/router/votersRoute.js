@@ -1,8 +1,9 @@
 import express from "express"
-
-import {voterRegister} from "../controller/voterController.js"
+import {castVote,verifyVoter} from "../controller/voterController.js"
 
 const votingrout = express.Router();
 
-votingrout.post("/",voterRegister);
+votingrout.post("/verifyVoter",verifyVoter);
+votingrout.post("/castVote", castVote);
+
 export default votingrout;

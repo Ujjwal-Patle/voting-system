@@ -1,11 +1,9 @@
-// import express from "express";
-// import { getPollDetails } from "../controller/publicControll.js";
+import express from "express";
+import { getAllActivePolls, getPollDetails } from "../controller/publicControll.js";
 
+const publicRout = express.Router();
 
-// const authLoginRout = express.Router();
+publicRout.get("/polls", getAllActivePolls);
+publicRout.get("/polls/:id", getPollDetails);
 
-// authLoginRout.post("/adminReg",getPollDetails);
-
-
-
-// export default authLoginRout;
+export default publicRout;
